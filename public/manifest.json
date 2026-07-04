@@ -1,0 +1,47 @@
+{
+  "name": "XAI Assistant",
+  "short_name": "XAI",
+  "description": "Your personal real-time AI assistant for conversations and tasks",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["productivity", "education"],
+   "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Chat Interface"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "ENGLISH TUTOR",
+      "url": "/chat/0",
+      "description": "Start a new conversation with AI"
+    },
+    {
+      "name": "Books",
+      "url": "/books",
+      "description": "Read all books"
+    }
+   
+  ]
+}
