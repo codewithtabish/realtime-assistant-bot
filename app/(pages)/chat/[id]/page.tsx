@@ -32,7 +32,7 @@ export default function ChatPage() {
   if (!agent) {
     return (
       <div className="min-h-screen flex items-center justify-center text-red-500 text-2xl">
-        Agent not found
+        Agent not found again. Please go back and select a valid agent.
       </div>
     );
   }
