@@ -5,20 +5,12 @@ export async function POST(req: NextRequest) {
   try {
     const { instructions } = await req.json();
 
-    const apikey = process.env.OPENAI_API_KEY;
-
-    if (!apikey) {
-      return NextResponse.json({ 
-        error: "OPENAI_API_KEY is missing in .env.local" 
-      }, { status: 500 });
-    }
-
     const response = await fetch(
       "https://api.openai.com/v1/realtime/client_secrets",
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apikey}`,
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -28,32 +20,35 @@ export async function POST(req: NextRequest) {
           },
           session: {
             type: "realtime",
-            model: "gpt-4o-realtime-preview-2024-12-17",   // ← Best & Latest Model
-
-            instructions: instructions ?? 
-              "You are a friendly, patient, and encouraging language tutor. Speak naturally and clearly.",
+            model: "gpt-realtime-2",
+            instructions: instructions ?? "You are a helpful language tutor.",
 
             audio: {
               input: {
                 turn_detection: {
-                  type: "server_vad",
-                  threshold: 0.75,           // Less sensitive to background noise
-                  prefix_padding_ms: 400,
-                  silence_duration_ms: 1200, // Wait longer before responding
-                  create_response: true,
-                  interrupt_response: true,
+                type: "server_vad",
+                   threshold: 0.75,
+
+  prefix_padding_ms: 300,
+
+  silence_duration_ms: 800,
+
+  create_response: true,
+
+  interrupt_response: true,
                 },
                 transcription: {
                   model: "whisper-1",
                   language: "en", 
+                  prompt: "Speak naturally, clear pronunciation, everyday conversation",
                 },
               },
               output: {
-                voice: "shimmer",   // Clear and natural voice
+                voice: "shimmer",
               },
             },
 
-            tools: [
+                        tools: [
               {
                 type: "function",
                 name: "get_weather",
@@ -72,8 +67,24 @@ export async function POST(req: NextRequest) {
                   },
                   required: ["location"]
                 }
+              },
+              {
+                type: "function",
+                name: "get_users",
+                description: "Get fake users data from JSONPlaceholder public API",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    limit: {
+                      type: "integer",
+                      description: "How many users to get (default 5)"
+                    }
+                  }
+                }
               }
             ]
+
+         
           },
         }),
       }
@@ -86,10 +97,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(data, { status: response.status });
     }
 
-    console.log("✅ Session Created Successfully");
+    console.log("✅ Success - Tool Added");
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Server Error:", error);
+    console.error(error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
