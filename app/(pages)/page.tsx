@@ -12,7 +12,7 @@ export default function Home() {
 
         {/* Footer Info */}
         <div className="text-center mt-20 text-zinc-500 text-sm">
-          Powered by OpenAI Realtime API • Built with Next.js
+          Powered by OpenAI Realtime API •---- Built with Next.js
         </div>
       </div>
   );
