@@ -59,7 +59,7 @@ function AgentCard({
         },
       }}
       className={cn(
-        "absolute left-1/2   -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10 h-full w-full p-4 shadow-lg backdrop-blur-md sm:p-6"
+        "absolute left-1/2   -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10 h-full w-full p-4 shadow-lg backdrop-blur-md sm:p-6 flex flex-col justify-center items-center"
       )}
       initial={false}
       style={{
@@ -81,9 +81,9 @@ function AgentCard({
             <Image
               src={agent.image}
               alt={agent.name}
-              width={80}
-              height={80}
-              className="mx-auto h-20 w-20 rounded-full object-cover"
+              width={128}
+              height={128}
+              className="mx-auto h-32 w-32 rounded-full object-cover"
             />
           </div>
 
@@ -199,8 +199,8 @@ export default function AgentsCarousel() {
   return (
     <>
     <div
-      className="relative mx-auto w-[90%] max-w-4xl mt-10 "
-      style={{ height: "70vh" }} // 70% height on mobile
+      className="relative mx-auto w-[90%] max-w-4xl  "
+      style={{ height: "75vh" }} // 70% height on mobile
     >
       {/* Stack of cards */}
       <div className="relative h-full w-full py-8">
