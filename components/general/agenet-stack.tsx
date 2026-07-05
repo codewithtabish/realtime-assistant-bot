@@ -14,7 +14,7 @@ export default function AgentsStack() {
   const nextAgent = agents[currentIndex + 1];
 
   const handleDragEnd = (event: any, info: PanInfo) => {
-    const swipeThreshold = 120;
+    const swipeThreshold = 100;
 
     if (info.offset.x > swipeThreshold) {
       // Swipe Right
@@ -22,14 +22,14 @@ export default function AgentsStack() {
       setTimeout(() => {
         setCurrentIndex((prev) => Math.min(prev + 1, agents.length - 1));
         setExitDirection(null);
-      }, 200);
+      }, 180);
     } else if (info.offset.x < -swipeThreshold) {
       // Swipe Left
       setExitDirection("left");
       setTimeout(() => {
         setCurrentIndex((prev) => Math.min(prev + 1, agents.length - 1));
         setExitDirection(null);
-      }, 200);
+      }, 180);
     }
   };
 
@@ -38,18 +38,18 @@ export default function AgentsStack() {
     if (currentIndex >= agents.length - 1) {
       setTimeout(() => {
         setCurrentIndex(0);
-      }, 800);
+      }, 600);
     }
   }, [currentIndex]);
 
   if (!currentAgent) return null;
 
   return (
-    <div className="relative mx-auto h-[70vh] w-[90%] max-w-[380px] overflow-hidden">
-      {/* Next Card (Background) */}
+    <div className="relative mx-auto h-[72vh] w-[92%] max-w-[380px] overflow-hidden">
+      {/* Next Card */}
       {nextAgent && (
-        <div className="absolute inset-0 scale-95 opacity-70">
-          <div className="h-full w-full rounded-3xl bg-gradient-to-br from-zinc-900 to-black overflow-hidden border border-zinc-800">
+        <div className="absolute inset-0 scale-95 opacity-60 z-10">
+          <div className="h-full w-full rounded-3xl bg-black overflow-hidden border border-zinc-800 shadow-xl">
             <img
               src={nextAgent.image}
               alt={nextAgent.name}
@@ -62,16 +62,17 @@ export default function AgentsStack() {
       {/* Current Card */}
       <motion.div
         drag="x"
-        dragConstraints={{ left: -100, right: 100 }}
-        dragElastic={0.3}
+        dragConstraints={{ left: -120, right: 120 }}
+        dragElastic={0.25}
         onDragEnd={handleDragEnd}
         animate={{
-          x: exitDirection === "left" ? -400 : exitDirection === "right" ? 400 : 0,
-          rotate: exitDirection === "left" ? -25 : exitDirection === "right" ? 25 : 0,
+          x: exitDirection === "left" ? -420 : exitDirection === "right" ? 420 : 0,
+          rotate: exitDirection === "left" ? -22 : exitDirection === "right" ? 22 : 0,
           opacity: exitDirection ? 0 : 1,
+          scale: exitDirection ? 0.85 : 1,
         }}
-        transition={{ duration: 0.25 }}
-        className="absolute inset-0 cursor-grab active:cursor-grabbing"
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        className="absolute inset-0 cursor-grab active:cursor-grabbing z-20"
       >
         <div className="h-full w-full rounded-3xl bg-black overflow-hidden shadow-2xl border border-zinc-700 relative">
           <img
@@ -81,27 +82,23 @@ export default function AgentsStack() {
           />
 
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/70 to-black" />
 
-          {/* Content */}
+          {/* Info */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <div className="flex items-center gap-3">
-              <div>
-                <h2 className="text-3xl font-bold tracking-tight">
-                  {currentAgent.name}
-                </h2>
-                <p className="text-zinc-400 mt-1 text-lg">{currentAgent.expertise}</p>
-              </div>
-            </div>
+            <h2 className="text-3xl font-bold tracking-tight">
+              {currentAgent.name}
+            </h2>
+            <p className="text-zinc-400 mt-1">{currentAgent.expertise}</p>
 
-            <p className="mt-4 text-zinc-300 leading-snug">
+            <p className="mt-4 text-zinc-200 text-[15px] leading-snug">
               {currentAgent.description}
             </p>
 
-            <div className="mt-6 flex gap-3">
+            <div className="mt-7">
               <Link
                 href={`/chat/${currentAgent.id}`}
-                className="flex-1 bg-white text-black font-semibold py-4 rounded-2xl text-center active:scale-95 transition-all"
+                className="block w-full bg-white text-black font-semibold py-4 rounded-2xl text-center active:scale-95 transition-all"
               >
                 Start Conversation
               </Link>
@@ -111,8 +108,8 @@ export default function AgentsStack() {
       </motion.div>
 
       {/* Swipe Hint */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs text-zinc-500 flex items-center gap-1.5">
-        <ChevronLeft className="h-3 w-3" /> Swipe left or right <ChevronRight className="h-3 w-3" />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs text-zinc-400 flex items-center gap-2">
+        <ChevronLeft className="h-4 w-4" /> Swipe left or right <ChevronRight className="h-4 w-4" />
       </div>
     </div>
   );
