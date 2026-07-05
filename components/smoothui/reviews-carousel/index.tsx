@@ -2,11 +2,12 @@
 
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import { useEffect, useState, useCallback } from "react";
 import { agents, type Agent } from "@/app/data/agents";
 import Link from "next/link";
 import Image from "next/image";
+
 
 const FRAME_OFFSET = -28;
 const FRAMES_VISIBLE_LENGTH = 3;
@@ -43,14 +44,30 @@ function ReviewCard({
 
   const scale = shouldReduceMotion
     ? 1
-    : Math.max(0.84, 1 - relative * 0.06);
+    :  Math.max(0.9, 1 - relative * 0.04);
 
-  const opacity = Math.max(0.25, 1 - relative * 0.18);
+  const opacity = Math.max(0.55, 1 - relative * 0.12);;
 
-  const y = shouldReduceMotion ? 0 : relative * 28;
+const y = shouldReduceMotion ? 0 : relative * 22;
 
+const x = useMotionValue(0);
+
+const rotate = useTransform(
+  x,
+  [-250, 0, 250],
+  [-10, 0, 10]
+);
   return (
     <motion.figure
+    drag="x"
+style={{
+    x,
+    rotate,
+    zIndex: totalCards - relative,
+    opacity,
+    filter: `blur(${relative * 0.6}px)`,
+    pointerEvents: isActive ? "auto" : "none",
+}}
       animate={{
         y,
         scale,
@@ -60,7 +77,6 @@ function ReviewCard({
         stiffness: 300,
         damping: 28,
       }}
-      drag={isActive ? "x" : false}
       dragConstraints={{ left: -100, right: 100 }}
       dragElastic={0.2}
       onDragEnd={(_, info) => {
@@ -75,24 +91,18 @@ function ReviewCard({
         }
       }}
       className={cn(
-        "absolute left-1/2 top-1/2",
-        "w-[calc(100%-1.25rem)]",
-        "sm:w-[calc(100%-2rem)]",
-        "max-w-90",
-        "sm:max-w-107.5",
-        "md:max-w-130",
-        "lg:max-w-[600px]",
-        "-translate-x-1/2 -translate-y-1/2",
-        "rounded-3xl border border-foreground/10",
-        "bg-background/95 shadow-xl backdrop-blur-xl",
-        "p-6 md:p-8"
-      )}
-      style={{
-        zIndex: totalCards - relative,
-        opacity,
-        filter: `blur(${relative * 1.2}px)`,
-        pointerEvents: isActive ? "auto" : "none",
-      }}
+  "absolute left-1/2 top-1/2",
+  "w-[92%]",
+  "max-w-107.5",
+  "sm:max-w-125",
+  "-translate-x-1/2 -translate-y-1/2",
+  "rounded-[28px]",
+  "border border-border/50",
+  "bg-background shadow-2xl",
+  "p-6"
+)}
+     
+     
     >
       <Link
         href={`/chat/${agent.id}`}
@@ -172,7 +182,7 @@ export default function AgentsCarousel() {
 
   return (
     <div className="relative mx-auto w-full max-w-4xl px-4 ">
-      <div className="relative  w-full">
+      <div className="relative h-[520px] md:h-[580px] w-full">
         {agents.map((agent, index) => (
           <ReviewCard
             key={agent.id}
@@ -184,37 +194,6 @@ export default function AgentsCarousel() {
         ))}
       </div>
 
-      {/* Navigation */}
-      <div className="flex items-center justify-center gap-6 ">
-        <button
-          onClick={goPrev}
-          disabled={activeIndex === 0}
-          className="h-12 w-12 flex items-center justify-center rounded-2xl border bg-background hover:bg-muted disabled:opacity-40 transition-all"
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </button>
-
-        <div className="flex gap-2.5">
-          {agents.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIndex(i)}
-              className={cn(
-                "h-2.5 rounded-full transition-all",
-                i === activeIndex ? "w-9 bg-primary" : "w-2.5 bg-muted hover:bg-foreground/30"
-              )}
-            />
-          ))}
-        </div>
-
-        <button
-          onClick={goNext}
-          disabled={activeIndex === maxIndex}
-          className="h-12 w-12 flex items-center justify-center rounded-2xl border bg-background hover:bg-muted disabled:opacity-40 transition-all"
-        >
-          <ChevronRight className="h-6 w-6" />
-        </button>
-      </div>
     </div>
   );
 }
