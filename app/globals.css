@@ -104,3 +104,106 @@
     @apply font-sans;
   }
 }
+
+
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes breathing {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes talking {
+  0% {
+    transform: scale(1) rotate(-1deg);
+  }
+
+  25% {
+    transform: scale(1.08) rotate(1deg);
+  }
+
+  50% {
+    transform: scale(1.12) rotate(-1deg);
+  }
+
+  75% {
+    transform: scale(1.08) rotate(1deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(-1deg);
+  }
+}
+
+@keyframes idleGlow {
+  0% {
+    transform: scale(0.95);
+    opacity: .3;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: .6;
+  }
+
+  100% {
+    transform: scale(.95);
+    opacity: .3;
+  }
+}
+
+@keyframes listenWave {
+  0% {
+    transform: scale(.8);
+    opacity: .7;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(1);
+    opacity: .8;
+  }
+
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes waveFast {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
