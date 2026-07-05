@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
 import { useScroll } from "@/hooks/use-scroll";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/general/themes/theme-toggle";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -17,14 +18,14 @@ export function Header() {
 
   return (
     <header
-  className={cn(
-    "hidden md:block sticky top-0 z-50 mx-auto w-full max-w-4xl border-transparent border-b md:rounded-md md:border md:transition-all md:ease-out",
-    {
-      "border-border bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/50 md:top-2 md:max-w-3xl md:shadow":
-        scrolled,
-    }
-  )}
->
+      className={cn(
+        "sticky top-0 z-50 mx-auto w-full max-w-4xl border-transparent border-b md:rounded-md md:border md:transition-all md:ease-out",
+        {
+          "border-border bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/50 md:top-2 md:max-w-3xl md:shadow":
+            scrolled,
+        }
+      )}
+    >
       <nav
         className={cn(
           "flex h-14 w-full items-center justify-between px-4 md:h-12 md:transition-all md:ease-out",
@@ -49,17 +50,20 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          
-          <Button size="sm" variant="outline" >
-            <Link href="/signin">Sign In</Link>
-          </Button>
-          
-          <Button size="sm" >
-            <Link href="/get-started">Get Started</Link>
-          </Button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Right Side: Buttons + Mode Toggle */}
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="outline" asChild>
+            <Link href="/signin">Sign In</Link>
+          </Button>
+
+          <Button size="sm" asChild>
+            <Link href="/get-started">Get Started</Link>
+          </Button>
+
+          <ModeToggle />
+        </div>
       </nav>
     </header>
   );

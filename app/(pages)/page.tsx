@@ -1,31 +1,21 @@
-// app/page.tsx
-
-import AgentsList from "@/components/general/agenet-list";
-import { Header } from "@/components/header";
 import AgentsCarouselTwo from "@/components/smoothui/reviews-carousel";
+import { Header } from "@/components/header";
 
 export default function Home() {
-  
-
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
 
-      {/* Mobile */}
-     <div className="block ">
-  <section className="px-5 pt-8 pb-6 text-center">
-    <AgentsCarouselTwo/>
+      {/* Main Content - Full Height on All Devices */}
+      <main className="flex-1 flex flex-col md:min-h-screen">
+        <section className="flex-1 px-5 pt-8 pb-12 text-center flex items-center justify-center">
+          <div className="w-full">
+            <AgentsCarouselTwo />
+          </div>
+        </section>
 
-   
-  </section>
-
-
-</div>
-
-      {/* Tablet & Desktop */}
-      {/* <div className="hidden md:block">
-        <AgentsList />
-      </div> */}
+        {/* Add other sections here */}
+      </main>
     </div>
   );
 }
