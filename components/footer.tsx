@@ -32,7 +32,7 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="mx-auto max-w-5xl border-t bg-background px-4 md:px-6">
+	<footer className="hidden md:block mx-auto max-w-5xl border-t bg-background px-4 md:px-6">
       <div className="flex flex-col gap-8 py-8">
         {/* Top */}
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
