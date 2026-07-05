@@ -59,7 +59,7 @@ function AgentCard({
         },
       }}
       className={cn(
-        "absolute left-1/2 w-[calc(100%-2rem)] max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10 bg-background/80 p-4 shadow-lg backdrop-blur-md sm:p-6"
+        "absolute left-1/2   -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10 h-full w-full p-4 shadow-lg backdrop-blur-md sm:p-6"
       )}
       initial={false}
       style={{
@@ -197,8 +197,9 @@ export default function AgentsCarousel() {
   if (filteredAgents.length === 0) return null;
 
   return (
+    <>
     <div
-      className="relative mx-auto w-full max-w-4xl mt-10"
+      className="relative mx-auto w-[90%] max-w-4xl mt-10 "
       style={{ height: "70vh" }} // 70% height on mobile
     >
       {/* Stack of cards */}
@@ -208,6 +209,7 @@ export default function AgentsCarousel() {
             <AgentCard
               activeIndex={activeIndex}
               index={index}
+      
               key={agent.id}
               agent={agent}
               totalCards={filteredAgents.length}
@@ -217,7 +219,9 @@ export default function AgentsCarousel() {
       </div>
 
       {/* Navigation */}
-      <div className="absolute bottom-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2">
+   
+    </div>
+       <div className="absolute bottom-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2">
         <NavigationButton
           direction="prev"
           disabled={activeIndex <= 0}
@@ -247,6 +251,6 @@ export default function AgentsCarousel() {
           onClick={goToNext}
         />
       </div>
-    </div>
+    </>
   );
 }
