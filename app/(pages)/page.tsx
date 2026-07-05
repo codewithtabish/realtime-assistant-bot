@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col overflow-x-hidden overflow-y-hidden">
       <Header />
 
       {/* Main Content - Full Height on All Devices */}
