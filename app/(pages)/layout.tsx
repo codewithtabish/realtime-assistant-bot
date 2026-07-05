@@ -20,8 +20,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "XAI Assistant",
-  description:
-    "Your personal real-time AI assistant for conversations, tasks, and more",
+  description: "Your personal real-time AI assistant for conversations, tasks, and more",
   manifest: "/manifest.json",
   icons: {
     icon: "/icons/icon-192.png",
@@ -44,7 +43,7 @@ export default function RootLayout({
       <head>
         <script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3940256099942544"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
           crossOrigin="anonymous"
         ></script>
       </head>
@@ -57,7 +56,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-
           <Footer />
           <Toaster />
           <AdBanner />
