@@ -171,8 +171,8 @@ export default function AgentsCarousel() {
   if (agents.length === 0) return null;
 
   return (
-    <div className="relative mx-auto w-full max-w-4xl px-4 py-12">
-      <div className="relative h-[520px] md:h-[580px] w-full">
+    <div className="relative mx-auto w-full max-w-4xl px-4 ">
+      <div className="relative  w-full">
         {agents.map((agent, index) => (
           <ReviewCard
             key={agent.id}
@@ -185,7 +185,7 @@ export default function AgentsCarousel() {
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-center gap-6 mt-10">
+      <div className="flex items-center justify-center gap-6 ">
         <button
           onClick={goPrev}
           disabled={activeIndex === 0}
