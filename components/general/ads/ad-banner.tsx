@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -9,30 +9,40 @@ declare global {
 }
 
 export default function AdBanner() {
+  const initialized = useRef(false);
+
   useEffect(() => {
+    if (initialized.current) return;
+
     const timer = setTimeout(() => {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.error("AdMob Error:", e);
+        initialized.current = true;
+      } catch (err) {
+        console.error("Adsense:", err);
       }
-    }, 800);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-black border-t border-zinc-700 py-2">
-      <div className="max-w-md mx-auto px-4 text-center">
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-3940256099942544"   // Test ID
-          data-ad-slot="6300978111"                  // Test ID
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      </div>
+    <div
+      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-white dark:bg-neutral-900 border-t border-gray-300 dark:border-neutral-700"
+      style={{
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
+    >
+      <ins
+        className="adsbygoogle"
+        style={{
+          display: "block",
+          width: "320px",
+          height: "50px",
+        }}
+        data-ad-client="ca-pub-3940256099942544"
+        data-ad-slot="6300978111"
+      />
     </div>
   );
 }
