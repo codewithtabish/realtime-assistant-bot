@@ -44,10 +44,12 @@ const sampleReviews: Review[] = [
       <Header />
 
       {/* Mobile */}
-     <div className="block md:block">
+     <div className="block md:hidden">
   <section className="px-5 pt-8 pb-6 text-center">
-            <ReviewsCarousel height="300px" reviews={sampleReviews} />
-
+<ReviewsCarousel
+  height="90vh"
+  reviews={sampleReviews}
+/>
    
   </section>
 

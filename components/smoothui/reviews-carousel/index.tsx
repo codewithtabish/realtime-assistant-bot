@@ -64,8 +64,16 @@ function ReviewCard({
         },
       }}
       className={cn(
-        "absolute left-1/2 w-[calc(100%-2rem)] max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10 bg-background/80 p-4 shadow-lg backdrop-blur-md sm:p-6"
-      )}
+  "absolute left-1/2",
+  "-translate-x-1/2 -translate-y-1/2",
+  "w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-150",
+  "h-[90vh] md:h-auto",
+  "max-h-[90vh] md:max-h-none",
+  "rounded-2xl border border-foreground/10 bg-background/80 shadow-lg backdrop-blur-md",
+  "flex flex-col",
+  "p-5 sm:p-6"
+)}
+    
       initial={false}
       style={{
         borderWidth: 1 / scale,
@@ -80,15 +88,15 @@ function ReviewCard({
         top: "50%", // Centrar verticalmente
       }}
     >
-      <blockquote className="relative">
+      <blockquote className="relative flex-1 overflow-y-auto">
         <div className="absolute -top-1 -left-2 text-4xl text-foreground/10 leading-none dark:text-foreground/5">
           "
         </div>
-        <p className="relative text-foreground/80 text-sm leading-relaxed">
+<p className="relative text-base leading-8 text-foreground/80 md:text-sm md:leading-relaxed">
           {review.body}
         </p>
       </blockquote>
-      <figcaption className="mt-4 flex items-center gap-2 border-foreground/5 border-t pt-4">
+<figcaption className="mt-6 flex shrink-0 items-center gap-2 border-t border-foreground/5 pt-5">
         <div className="flex flex-col">
           <span className="font-semibold text-foreground text-xs">
             {review.author}
@@ -240,9 +248,12 @@ export default function ReviewsCarousel({
 
   return (
     <div
-      className={cn("relative mx-auto w-full max-w-4xl", className)}
-      style={{ height }}
-    >
+  className={cn(
+    "relative mx-auto w-full max-w-4xl h-[90vh] md:h-auto",
+    className
+  )}
+  style={{ height }}
+>
       {/* Stack of cards - using grid-stack pattern */}
       <div className="relative h-full w-full py-8">
         <div className="grid h-full w-full place-items-center">
