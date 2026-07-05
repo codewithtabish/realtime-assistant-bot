@@ -59,7 +59,7 @@ export default function ChatPage() {
 
   if (!agent) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-500 text-2xl">
+      <div className="min-h-screen flex items-center justify-center text-red-500 text-2xl overflow-x-hidden overflow-y-hidden">
         Agent not found
       </div>
     );
@@ -295,7 +295,7 @@ export default function ChatPage() {
         </div>
 
         {/* Status Indicator */}
-        <div className={`mb-8 px-8 py-3 rounded-2xl text-sm font-medium flex items-center gap-3 transition-all duration-300 ${
+        <div className={`mb-4 px-8 py-3 rounded-2xl text-sm font-medium flex items-center gap-3 transition-all duration-300 ${
           status === 'connected' ? 'bg-green-500/10 text-green-400' : 
           status === 'speaking' ? 'bg-purple-500/10 text-purple-400' : 'bg-zinc-800 text-zinc-400'
         }`}>
@@ -316,7 +316,7 @@ export default function ChatPage() {
       size="lg"
       className="
       relative
-      h-16 sm:h-20
+      h-16 sm:h-16
       rounded-3xl
       overflow-hidden
       border
@@ -344,11 +344,11 @@ export default function ChatPage() {
       <Mic className="mr-3 h-6 w-6 transition-transform group-hover:scale-125 group-hover:rotate-12" />
 
       <div className="flex flex-col items-start leading-none">
-        <span className="font-bold text-base sm:text-lg">
+        <span className="font-bold text-sm sm:text-lg ">
           Start Voice
         </span>
 
-        <span className="text-xs opacity-90">
+        <span className="text-sm opacity-90 ">
           Begin Conversation
         </span>
       </div>
