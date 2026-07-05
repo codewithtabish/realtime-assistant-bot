@@ -15,7 +15,7 @@ export default function AgentsStack() {
   };
 
   return (
-    <div className="relative mx-auto h-[68vh] w-[92%] max-w-[380px]">
+    <div className="relative mx-auto h-dvh-[10%] w-[92%] max-w-[380px]">
       {visibleAgents.map((agent, relativeIndex) => {
         const isTop = relativeIndex === 0;
         const depth = relativeIndex;
@@ -73,9 +73,7 @@ export default function AgentsStack() {
         );
       })}
 
-      {/* Swipe Hint */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-zinc-400 flex items-center gap-2">
-      </div>
+    
     </div>
   );
 }
