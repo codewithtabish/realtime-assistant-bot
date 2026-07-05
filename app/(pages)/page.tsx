@@ -12,7 +12,7 @@ export default function Home() {
       <Header />
 
       {/* Mobile */}
-     <div className="block md:hidden">
+     <div className="block ">
   <section className="px-5 pt-8 pb-6 text-center">
     <AgentsCarouselTwo/>
 

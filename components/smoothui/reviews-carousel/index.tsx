@@ -59,7 +59,7 @@ function AgentCard({
         },
       }}
       className={cn(
-        "absolute left-1/2 w-[calc(100%-2rem)] max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10 bg-background/80 p-4 shadow-lg backdrop-blur-md sm:p-6"
+        "absolute left-1/2 w-[calc(100%-2rem)] max-w-150 bg-red-500 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10  p-4 shadow-lg backdrop-blur-md sm:p-6 h-[70vh]"
       )}
       initial={false}
       style={{
