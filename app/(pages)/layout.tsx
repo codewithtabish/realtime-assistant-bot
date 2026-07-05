@@ -5,7 +5,7 @@ import "../globals.css";
 
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/general/themes/theme-provider";
-import AdBanner from "@/components/general/ads/ad-banner";
+// import AdBanner from "@/components/general/ads/ad-banner";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
@@ -41,15 +41,15 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <head>
+      {/* <head>
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3940256099942544"
           crossOrigin="anonymous"
         ></script>
-      </head>
+      </head> */}
 
-      <body className="min-h-screen pb-20">
+      <body className="min-h-screen ">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -60,7 +60,7 @@ export default function RootLayout({
 
           <Footer />
           <Toaster />
-          <AdBanner />
+          {/* <AdBanner /> */}
         </ThemeProvider>
       </body>
     </html>
