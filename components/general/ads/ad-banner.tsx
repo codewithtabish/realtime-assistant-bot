@@ -1,15 +1,31 @@
 'use client';
 
 import Script from 'next/script';
+import { useEffect } from 'react';
+
+declare global {
+  interface Window {
+    adsbygoogle: unknown[];
+  }
+}
 
 export default function AdBanner() {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error("AdMob push error:", e);
+    }
+  }, []);
+
   return (
     <>
-      {/* Load AdMob Script */}
+      {/* Load AdMob Script Once */}
       <Script
         async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
         strategy="afterInteractive"
+        crossOrigin="anonymous"
       />
 
       {/* Bottom Banner */}
@@ -25,11 +41,6 @@ export default function AdBanner() {
           />
         </div>
       </div>
-
-      {/* Initialize the ad */}
-      <Script id="ad-init" strategy="afterInteractive">
-        {`(adsbygoogle = window.adsbygoogle || []).push({});`}
-      </Script>
     </>
   );
 }
