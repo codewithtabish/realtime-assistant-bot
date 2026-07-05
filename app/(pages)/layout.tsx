@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { MobileBottomNav } from "@/components/general/mobile-bottom-nav";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/general/themes/theme-provider";
+import AdBanner from "@/components/general/ads/ad-banner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,6 +53,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+                <AdBanner />
                 <Toaster />
                               <Footer/>
           </ThemeProvider>
