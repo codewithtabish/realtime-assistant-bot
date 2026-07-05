@@ -4,6 +4,9 @@ import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
+import { agents, type Agent } from "@/app/data/agents";
+import Image from "next/image";
+import Link from "next/link";
 
 const FRAME_OFFSET = -30;
 const FRAMES_VISIBLE_LENGTH = 3;
@@ -12,30 +15,22 @@ function clamp(val: number, [min, max]: [number, number]): number {
   return Math.min(Math.max(val, min), max);
 }
 
-export interface Review {
-  author: string;
-  body: string;
-  id: string | number;
-  title: string;
-}
-
-interface ReviewCardProps {
+interface AgentCardProps {
   activeIndex: number;
   index: number;
-  review: Review;
+  agent: Agent;
   totalCards: number;
 }
 
-function ReviewCard({
-  review,
+function AgentCard({
+  agent,
   index,
   activeIndex,
   totalCards,
-}: ReviewCardProps) {
+}: AgentCardProps) {
   const shouldReduceMotion = useReducedMotion();
   const offsetIndex = index - activeIndex;
 
-  // Same logic as time-machine
   const blur = activeIndex > index ? 2 : 0;
   const opacity = activeIndex > index ? 0 : 1;
   const scale = shouldReduceMotion
@@ -64,16 +59,8 @@ function ReviewCard({
         },
       }}
       className={cn(
-  "absolute left-1/2",
-  "-translate-x-1/2 -translate-y-1/2",
-  "w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-150",
-  "h-[90vh] md:h-auto",
-  "max-h-[90vh] md:max-h-none",
-  "rounded-2xl border border-foreground/10 bg-background/80 shadow-lg backdrop-blur-md",
-  "flex flex-col",
-  "p-5 sm:p-6"
-)}
-    
+        "absolute left-1/2 w-[calc(100%-2rem)] max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10 bg-background/80 p-4 shadow-lg backdrop-blur-md sm:p-6"
+      )}
       initial={false}
       style={{
         borderWidth: 1 / scale,
@@ -85,25 +72,42 @@ function ReviewCard({
         transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
         zIndex: totalCards - index,
         pointerEvents: isActive ? "auto" : "none",
-        top: "50%", // Centrar verticalmente
+        top: "50%",
       }}
     >
-      <blockquote className="relative flex-1 overflow-y-auto">
-        <div className="absolute -top-1 -left-2 text-4xl text-foreground/10 leading-none dark:text-foreground/5">
-          "
+      <Link href={`/chat/${agent.id}`} className="block">
+        <div className="flex flex-col items-center text-center">
+          <div className="mb-5">
+            <Image
+              src={agent.image}
+              alt={agent.name}
+              width={80}
+              height={80}
+              className="mx-auto h-20 w-20 rounded-full object-cover"
+            />
+          </div>
+
+          <blockquote className="relative">
+            <div className="absolute -top-1 -left-2 text-4xl text-foreground/10 leading-none">
+              "
+            </div>
+            <p className="relative text-foreground/80 text-sm leading-relaxed">
+              {agent.description}
+            </p>
+          </blockquote>
+
+          <figcaption className="mt-4 flex items-center gap-2 border-foreground/5 border-t pt-4">
+            <div className="flex flex-col">
+              <span className="font-semibold text-foreground text-xs">
+                {agent.name}
+              </span>
+              <span className="text-foreground/50 text-xs">
+                {agent.expertise} • {agent.voiceProperty}
+              </span>
+            </div>
+          </figcaption>
         </div>
-<p className="relative text-base leading-8 text-foreground/80 md:text-sm md:leading-relaxed">
-          {review.body}
-        </p>
-      </blockquote>
-<figcaption className="mt-6 flex shrink-0 items-center gap-2 border-t border-foreground/5 pt-5">
-        <div className="flex flex-col">
-          <span className="font-semibold text-foreground text-xs">
-            {review.author}
-          </span>
-          <span className="text-foreground/50 text-xs">{review.title}</span>
-        </div>
-      </figcaption>
+      </Link>
     </motion.figure>
   );
 }
@@ -145,169 +149,93 @@ function NavigationButton({
   );
 }
 
-export interface ReviewsCarouselProps {
-  autoPlay?: boolean;
-  autoPlayInterval?: number;
-  className?: string;
-  excludeIds?: (string | number)[];
-  height?: string;
-  reviews: Review[];
-  showIndicators?: boolean;
-  showNavigation?: boolean;
-}
+export default function AgentsCarouselTwo() {
+  const filteredAgents = agents;
 
-export default function ReviewsCarousel({
-  reviews,
-  className = "",
-  height = "300px",
-  excludeIds = [],
-  showIndicators = true,
-  showNavigation = true,
-  autoPlay = false,
-  autoPlayInterval = 5000,
-}: ReviewsCarouselProps) {
-  // Filter out excluded reviews - use Set for O(1) lookups
-  const filteredReviews = useMemo(() => {
-    if (excludeIds.length === 0) {
-      return reviews;
-    }
-
-    const excludeSet = new Set(excludeIds);
-    const reviewsLength = reviews.length;
-    const results: typeof reviews = [];
-
-    // Use for loop for better performance
-    for (let i = 0; i < reviewsLength; i++) {
-      const review = reviews[i];
-      if (!excludeSet.has(review.id)) {
-        results.push(review);
-      }
-    }
-
-    return results;
-  }, [reviews, excludeIds]);
-
-  const maxIndex = filteredReviews.length - 1;
+  const maxIndex = filteredAgents.length - 1;
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Auto-play functionality
+  // Auto-play
   useEffect(() => {
-    if (!autoPlay || maxIndex < 0) {
-      return;
-    }
-
     const interval = setInterval(() => {
-      setActiveIndex((prevIndex) => {
-        if (prevIndex >= maxIndex) {
-          return 0;
-        }
-        return prevIndex + 1;
-      });
-    }, autoPlayInterval);
+      setActiveIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 5000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [autoPlay, autoPlayInterval, maxIndex]);
+    return () => clearInterval(interval);
+  }, [maxIndex]);
 
   // Keyboard navigation
   useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "ArrowLeft") {
-        setActiveIndex((i) => clamp(i - 1, [0, maxIndex]));
-      } else if (event.key === "ArrowRight") {
-        setActiveIndex((i) => clamp(i + 1, [0, maxIndex]));
-      }
-    }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") setActiveIndex((i) => clamp(i - 1, [0, maxIndex]));
+      if (e.key === "ArrowRight") setActiveIndex((i) => clamp(i + 1, [0, maxIndex]));
+    };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [maxIndex]);
 
   const goToPrevious = () => {
-    setActiveIndex((prevIndex) => {
-      if (prevIndex > 0) {
-        return prevIndex - 1;
-      }
-      return prevIndex;
-    });
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : prev));
   };
 
   const goToNext = () => {
-    setActiveIndex((prevIndex) => {
-      const newIndex = prevIndex + 1;
-      return newIndex <= maxIndex ? newIndex : prevIndex;
-    });
+    setActiveIndex((prev) => (prev < maxIndex ? prev + 1 : prev));
   };
 
-  if (filteredReviews.length === 0) {
-    return null;
-  }
+  if (filteredAgents.length === 0) return null;
 
   return (
     <div
-  className={cn(
-    "relative mx-auto w-full max-w-4xl h-[90vh] md:h-auto",
-    className
-  )}
-  style={{ height }}
->
-      {/* Stack of cards - using grid-stack pattern */}
+      className="relative mx-auto w-full max-w-4xl"
+      style={{ height: "70vh" }} // 70% height on mobile
+    >
+      {/* Stack of cards */}
       <div className="relative h-full w-full py-8">
         <div className="grid h-full w-full place-items-center">
-          {filteredReviews.map((review: Review, index: number) => (
-            <ReviewCard
+          {filteredAgents.map((agent: Agent, index: number) => (
+            <AgentCard
               activeIndex={activeIndex}
               index={index}
-              key={review.id}
-              review={review}
-              totalCards={filteredReviews.length}
+              key={agent.id}
+              agent={agent}
+              totalCards={filteredAgents.length}
             />
           ))}
         </div>
       </div>
 
-      {/* Navigation buttons */}
-      {(showNavigation || showIndicators) && (
-        <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2">
-          {showNavigation && (
-            <NavigationButton
-              direction="prev"
-              disabled={activeIndex <= 0}
-              onClick={goToPrevious}
+      {/* Navigation */}
+      <div className="absolute bottom-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2">
+        <NavigationButton
+          direction="prev"
+          disabled={activeIndex <= 0}
+          onClick={goToPrevious}
+        />
+
+        <div className="flex items-center gap-2">
+          {filteredAgents.map((agent: Agent, index: number) => (
+            <button
+              aria-label={`Go to agent ${index + 1}`}
+              className={cn(
+                "h-2 rounded-full transition-all duration-200",
+                index === activeIndex
+                  ? "w-8 bg-brand"
+                  : "w-2 bg-brand/30 hover:bg-brand/50"
+              )}
+              key={agent.id}
+              onClick={() => setActiveIndex(index)}
+              type="button"
             />
-          )}
-          {showIndicators && (
-            <div className="flex items-center gap-2">
-              {filteredReviews.map((review: Review, index: number) => (
-                <button
-                  aria-label={`Ir al testimonio ${index + 1}`}
-                  className={cn(
-                    "h-2 rounded-full transition-all duration-200",
-                    index === activeIndex
-                      ? "w-8 bg-brand"
-                      : "w-2 bg-brand/30 hover:bg-brand/50"
-                  )}
-                  key={review.id}
-                  onClick={() => {
-                    setActiveIndex(index);
-                  }}
-                  type="button"
-                />
-              ))}
-            </div>
-          )}
-          {showNavigation && (
-            <NavigationButton
-              direction="next"
-              disabled={activeIndex === maxIndex}
-              onClick={goToNext}
-            />
-          )}
+          ))}
         </div>
-      )}
+
+        <NavigationButton
+          direction="next"
+          disabled={activeIndex === maxIndex}
+          onClick={goToNext}
+        />
+      </div>
     </div>
   );
 }
