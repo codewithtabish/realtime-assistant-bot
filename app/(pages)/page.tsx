@@ -1,8 +1,8 @@
 // app/page.tsx
 
 import AgentsList from "@/components/general/agenet-list";
+import AgentsStack from "@/components/general/agenet-stack";
 import { Header } from "@/components/header";
-import ReviewsCarousel from "@/components/smoothui/reviews-carousel";
 
 export default function Home() {
   return (
@@ -22,8 +22,9 @@ export default function Home() {
       real-time voice conversation in seconds.
     </p>
   </section>
+  <AgentsStack/>
 
-  <ReviewsCarousel />
+
 </div>
 
       {/* Tablet & Desktop */}
