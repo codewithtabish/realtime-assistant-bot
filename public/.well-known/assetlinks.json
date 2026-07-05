@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.xai.assistant",
+    "sha256_cert_fingerprints": [
+      "44:6D:BB:03:58:61:C7:1E:BD:B6:3D:1E:F3:4F:36:07:7D:A5:CD:02:53:80:2B:EB:93:9C:BD:08:14:50:6D:94"
+    ]
+  }
+}]
