@@ -6,6 +6,7 @@ import { MobileBottomNav } from "@/components/general/mobile-bottom-nav";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/general/themes/theme-provider";
 import AdBanner from "@/components/general/ads/ad-banner";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,28 +40,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-    suppressHydrationWarning
+       <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-full flex flex-col pb-20">
+      <body className="min-h-screen pb-20">
+        <Script
+          id="adsense-script"
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3940256099942544"
+          crossOrigin="anonymous"
+        />
 
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-                <AdBanner />
-                <Toaster />
-                              <Footer/>
-          </ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
 
-                              {/* <MobileBottomNav /> */}
-
-
+          <Footer />
+          <Toaster />
+          <AdBanner />
+        </ThemeProvider>
       </body>
     </html>
   );

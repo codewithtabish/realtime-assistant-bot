@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
-import Script from 'next/script';
-import { useEffect } from 'react';
+import { useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -10,37 +9,38 @@ declare global {
 }
 
 export default function AdBanner() {
+  const initialized = useRef(false);
+
   useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error("AdMob push error:", e);
+    if (initialized.current) return;
+
+    if (typeof window !== "undefined") {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        initialized.current = true;
+      } catch (err) {
+        console.error("Adsense:", err);
+      }
     }
   }, []);
 
   return (
-    <>
-      {/* Load AdMob Script Once */}
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        strategy="afterInteractive"
-        crossOrigin="anonymous"
+    <div
+      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-white dark:bg-black border-t"
+      style={{
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
+    >
+      <ins
+        className="adsbygoogle"
+        style={{
+          display: "block",
+          width: "320px",
+          height: "50px",
+        }}
+        data-ad-client="ca-pub-3940256099942544"
+        data-ad-slot="6300978111"
       />
-
-      {/* Bottom Banner */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-black border-t border-zinc-700 py-2">
-        <div className="max-w-md mx-auto px-4">
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-3940256099942544"   // Test Publisher ID
-            data-ad-slot="6300978111"                  // Test Banner ID
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
