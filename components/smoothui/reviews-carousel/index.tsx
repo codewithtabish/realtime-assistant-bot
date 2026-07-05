@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { agents, type Agent } from "@/app/data/agents";
 import Image from "next/image";
 import Link from "next/link";
@@ -59,7 +59,7 @@ function AgentCard({
         },
       }}
       className={cn(
-        "absolute left-1/2 w-[calc(100%-2rem)] max-w-150  my-10 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10  p-4 shadow-lg backdrop-blur-md sm:p-6 h-[75vh] flex justify-center items-center"
+        "absolute left-1/2 w-[calc(100%-2rem)] max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-foreground/10 bg-background/80 p-4 shadow-lg backdrop-blur-md sm:p-6"
       )}
       initial={false}
       style={{
@@ -87,25 +87,36 @@ function AgentCard({
             />
           </div>
 
-          <blockquote className="relative">
-            <div className="absolute -top-1 -left-2 text-4xl text-foreground/10 leading-none">
-              "
-            </div>
-            <p className="relative text-foreground/80 text-sm leading-relaxed">
-              {agent.description}
-            </p>
-          </blockquote>
+          <h3 className="text-xl font-semibold text-foreground">{agent.name}</h3>
+          <p className="text-sm text-muted-foreground mt-1">{agent.expertise}</p>
 
-          <figcaption className="mt-4 flex items-center gap-2 border-foreground/5 border-t pt-4">
-            <div className="flex flex-col">
-              <span className="font-semibold text-foreground text-xs">
-                {agent.name}
-              </span>
-              <span className="text-foreground/50 text-xs">
-                {agent.expertise} • {agent.voiceProperty}
-              </span>
-            </div>
-          </figcaption>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+            {agent.description}
+          </p>
+
+          <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs">
+            <span className="bg-muted px-2.5 py-1 rounded-full">
+              {agent.fluency}
+            </span>
+            <span className="bg-muted px-2.5 py-1 rounded-full">
+              {agent.teachingStyle}
+            </span>
+          </div>
+
+          <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
+            <span>⭐ {agent.rating}</span>
+            <span>•</span>
+            <span>{agent.students.toLocaleString()} students</span>
+          </div>
+
+          <div className="mt-6 w-full">
+            <Link
+              href={`/chat/${agent.id}`}
+              className="block w-full rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Start Conversation
+            </Link>
+          </div>
         </div>
       </Link>
     </motion.figure>
@@ -149,7 +160,7 @@ function NavigationButton({
   );
 }
 
-export default function AgentsCarouselTwo() {
+export default function AgentsCarousel() {
   const filteredAgents = agents;
 
   const maxIndex = filteredAgents.length - 1;
@@ -187,7 +198,7 @@ export default function AgentsCarouselTwo() {
 
   return (
     <div
-      className="relative mx-auto w-full max-w-4xl"
+      className="relative mx-auto w-full max-w-4xl mt-10"
       style={{ height: "70vh" }} // 70% height on mobile
     >
       {/* Stack of cards */}

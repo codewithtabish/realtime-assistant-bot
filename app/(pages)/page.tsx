@@ -23,9 +23,9 @@ export default function Home() {
 </div>
 
       {/* Tablet & Desktop */}
-      <div className="hidden md:block">
+      {/* <div className="hidden md:block">
         <AgentsList />
-      </div>
+      </div> */}
     </div>
   );
 }
