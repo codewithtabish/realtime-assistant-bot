@@ -34,12 +34,12 @@ export function Header() {
           }
         )}
       >
-        {/* Logo */}
+        {/* Logo - Always Visible */}
         <Link href="/" className="rounded-md p-2 hover:bg-muted dark:hover:bg-muted/50">
           <Logo className="h-4" />
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation Links (Hidden on Mobile) */}
         <div className="hidden items-center gap-2 md:flex">
           {navLinks.map((link) => (
             <Link
@@ -52,18 +52,8 @@ export function Header() {
           ))}
         </div>
 
-        {/* Right Side: Buttons + Mode Toggle */}
-        <div className="flex items-center gap-2">
-          {/* <Button size="sm" variant="outline" asChild> */}
-            <Link href="/signin" className="p-3">Sign In</Link>
-          {/* </Button> */}
-
-          {/* <Button size="sm" asChild> */}
-            <Link href="/get-started" className="p-3">
-              Get Started
-            </Link>
-          {/* </Button> */}
-
+        {/* Right Side: Mode Toggle (Always Visible) */}
+        <div className="flex items-center">
           <ModeToggle />
         </div>
       </nav>
