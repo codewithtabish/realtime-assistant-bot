@@ -1,11 +1,14 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.xai.assistant",
-    "sha256_cert_fingerprints": [
-      "70:77:17:BA:80:84:08:E7:D8:E8:87:08:50:40:9E:C3:9B:17:0E:1F:D5:CB:AC:3D:04:CD:08:B9:A8:3C:0D:2B"
-
-    ]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.realtime_assistant_bot.twa",
+      "sha256_cert_fingerprints": [
+        "70:77:17:BA:80:84:08:E7:D8:E8:87:08:50:40:9E:C3:9B:17:0E:1F:D5:CB:AC:3D:04:CD:08:B9:A8:3C:0D:2B"
+      ]
+    }
   }
-}]
+]
