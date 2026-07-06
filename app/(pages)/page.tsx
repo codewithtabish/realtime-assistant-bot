@@ -19,3 +19,6 @@ export default function Home() {
     </div>
   );
 }
+
+
+// This is called runtime caching, and it's one of the most powerful features of a Service Worker.

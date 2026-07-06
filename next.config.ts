@@ -1,5 +1,13 @@
 import type { NextConfig } from "next";
-import withPWA from "next-pwa";
+import withSerwistInit from "@serwist/next";
+
+const withSerwist = withSerwistInit({
+  swSrc: "workers/sw.ts",
+  swDest: "public/sw.js",
+
+  register: true,
+  disable: process.env.NODE_ENV === "development",
+});
 
 const nextConfig: NextConfig = {
   images: {
@@ -12,12 +20,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-// PWA Configuration
-const pwaConfig = withPWA({
-  dest: "public",
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === "development", // Disable PWA in development
-});
-
-export default pwaConfig(nextConfig);
+export default withSerwist(nextConfig);
