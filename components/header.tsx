@@ -10,6 +10,7 @@ import { ModeToggle } from "@/components/general/themes/theme-toggle";
 const navLinks = [
   { label: "Features", href: "#features" },
   { label: "Books", href: "/books" },
+  { label: "Contact Us", href: "/contact" },
   { label: "About", href: "/about" },
 ];
 
